@@ -25,8 +25,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# local env files
-.env*.local
+# Environment and secrets
+.env
+.env.*
+!.env.example
 
 # vercel
 .vercel
@@ -34,3 +36,26 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# IDE
+.idea/
+
+# Resume sources (reference phone numbers; run npm run resume for public/resume.pdf)
+docs/daphne-chepkirui-resume.docx
+docs/daphne-chepkirui-resume.md
+docs/_resume_extract/
+docs/_resume.zip
+docs/.~lock.*
+
+# Local images (keep folders; add your screenshots under public/ on each machine)
+public/**/*.png
+public/**/*.jpg
+public/**/*.jpeg
+public/**/*.webp
+public/**/*.gif
+public/**/*.zip
+public/profile/iCloud*/
+public/profile/**/3D6238E0*
+
+# Cursor / local assets
+assets/
