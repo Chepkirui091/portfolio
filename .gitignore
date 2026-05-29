@@ -40,9 +40,11 @@ next-env.d.ts
 # IDE
 .idea/
 
-# Resume sources (reference phone numbers; run npm run resume for public/resume.pdf)
+# Resume sources (reference phone numbers; PDF at docs/daphne-chepkirui-resume.pdf is served via /api/resume)
 docs/daphne-chepkirui-resume.docx
 docs/daphne-chepkirui-resume.md
+# Optional: ignore PDF too if you only generate locally (remove line to commit the PDF)
+# docs/daphne-chepkirui-resume.pdf
 docs/_resume_extract/
 docs/_resume.zip
 docs/.~lock.*

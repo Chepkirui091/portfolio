@@ -41,7 +41,7 @@ export function Header() {
           <ThemeToggle />
           <a
             href={site.resumePath}
-            download
+            download={site.resumeFilename}
             className="hidden text-sm text-muted transition hover:text-foreground lg:inline"
           >
             Resume
@@ -81,7 +81,7 @@ export function Header() {
           ))}
           <a
             href={site.resumePath}
-            download
+            download={site.resumeFilename}
             className="rounded-lg px-3 py-2.5 text-sm text-muted hover:bg-surface-hover hover:text-foreground"
             onClick={() => setOpen(false)}
           >

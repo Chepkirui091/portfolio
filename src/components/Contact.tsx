@@ -81,7 +81,7 @@ export function Contact() {
           ) : null}
           <a
             href={site.resumePath}
-            download
+            download={site.resumeFilename}
             className="glass flex items-center gap-3 rounded-2xl p-6 transition hover:border-accent/30"
           >
             <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/15 text-accent">
@@ -91,7 +91,7 @@ export function Contact() {
               <p className="text-sm font-medium text-foreground">
                 Download resume
               </p>
-              <p className="text-xs text-muted">PDF · ATS-friendly format</p>
+              <p className="text-xs text-muted">{site.resumeFilename}</p>
             </span>
             <Download size={16} className="ml-auto text-muted" />
           </a>

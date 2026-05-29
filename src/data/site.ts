@@ -11,7 +11,9 @@ export const site = {
     { label: "Chepkirui091", url: "https://github.com/Chepkirui091" },
     { label: "DMT-Daph", url: "https://github.com/DMT-Daph" },
   ],
-  resumePath: "/resume.pdf",
+  portfolioUrl: "https://portfolio-omega-umber-28.vercel.app/",
+  resumePath: "/api/resume",
+  resumeFilename: "daphne-chepkirui-resume.pdf",
   confidentialNote:
     "Some enterprise work is under NDA. I can show live demos on request for everything except discontinued Tenzi products.",
 };

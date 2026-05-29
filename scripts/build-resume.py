@@ -17,7 +17,7 @@ from fpdf import FPDF
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
-PUBLIC = ROOT / "public"
+RESUME_PDF = DOCS / "daphne-chepkirui-resume.pdf"
 
 # Titles and links only (skills body stays black)
 BLUE = (37, 99, 235)  # #2563eb
@@ -125,7 +125,14 @@ EXPERIENCE = [
     },
 ]
 
+PORTFOLIO_URL = "https://portfolio-omega-umber-28.vercel.app/"
+
 PROJECTS = [
+    (
+        "Portfolio Website (2025-2026)",
+        "Personal project. Next.js, TypeScript, Tailwind CSS, Framer Motion.",
+        f"Personal portfolio with curated projects, UI previews, testimonials, and resume download. Live: {PORTFOLIO_URL}",
+    ),
     (
         "KISRS - Kenya Integrated Sample Referral System (2025-2026)",
         "Lead frontend developer. React, Next.js, JavaScript, MUI, RBAC.",
@@ -517,19 +524,17 @@ def write_docx(path: Path) -> None:
 
 def main() -> None:
     DOCS.mkdir(exist_ok=True)
-    PUBLIC.mkdir(exist_ok=True)
 
     md_path = DOCS / "daphne-chepkirui-resume.md"
     docx_path = DOCS / "daphne-chepkirui-resume.docx"
-    pdf_path = PUBLIC / "resume.pdf"
 
     write_markdown(md_path)
     write_docx(docx_path)
-    write_pdf(pdf_path)
+    write_pdf(RESUME_PDF)
 
     print(f"Wrote {md_path}")
     print(f"Wrote {docx_path}")
-    print(f"Wrote {pdf_path}")
+    print(f"Wrote {RESUME_PDF}")
 
 
 if __name__ == "__main__":
