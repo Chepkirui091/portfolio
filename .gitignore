@@ -43,6 +43,8 @@ next-env.d.ts
 # Resume sources (reference phone numbers; PDF at docs/daphne-chepkirui-resume.pdf is served via /api/resume)
 docs/daphne-chepkirui-resume.docx
 docs/daphne-chepkirui-resume.md
+docs/daphne-chepkirui-cover-letter.md
+docs/daphne-chepkirui-cover-letter.docx
 # Optional: ignore PDF too if you only generate locally (remove line to commit the PDF)
 # docs/daphne-chepkirui-resume.pdf
 docs/_resume_extract/

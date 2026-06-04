@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Code2, Mail } from "lucide-react";
+import { Code2, Link2, Mail } from "lucide-react";
 import { site } from "@/data/site";
 import { siteImages } from "@/lib/images";
 import { BrowserFrame } from "./BrowserFrame";
@@ -73,6 +73,17 @@ export function Hero() {
                 <Mail size={16} />
                 Request a demo
               </a>
+              {site.linkedin && (
+                <a
+                  href={site.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="glass inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm text-muted transition hover:text-foreground"
+                >
+                  <Link2 size={16} />
+                  LinkedIn
+                </a>
+              )}
               {site.github.map((g) => (
                 <a
                   key={g.url}

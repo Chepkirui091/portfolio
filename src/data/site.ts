@@ -5,8 +5,8 @@ export const site = {
   location: "Nairobi, Kenya",
   email: "chepkiruidaphne91@gmail.com",
   phone: "+254111620160",
-  /** Add your LinkedIn profile URL when ready */
-  linkedin: "",
+  linkedin: "https://www.linkedin.com/in/daphne-chepkirui-382178313",
+  linkedinLabel: "daphne-chepkirui",
   github: [
     { label: "Chepkirui091", url: "https://github.com/Chepkirui091" },
     { label: "DMT-Daph", url: "https://github.com/DMT-Daph" },

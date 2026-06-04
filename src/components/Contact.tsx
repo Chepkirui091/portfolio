@@ -75,7 +75,7 @@ export function Contact() {
                 rel="noopener noreferrer"
                 className="mt-1 block text-sm font-medium text-accent hover:underline"
               >
-                Professional profile
+                linkedin.com/in/{site.linkedinLabel}
               </a>
             </div>
           ) : null}
