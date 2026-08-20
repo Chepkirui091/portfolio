@@ -1,13 +1,14 @@
 import { readFile } from "fs/promises";
 import path from "path";
 
-const RESUME_FILE = "daphne-chepkirui-resume.pdf";
+const RESUME_FILE = "Daphne_Chepkirui_Resume.pdf";
 
 export async function GET() {
-  const filePath = path.join(process.cwd(), "docs", RESUME_FILE);
+  const publicPath = path.join(process.cwd(), "public", RESUME_FILE);
+  const docsPath = path.join(process.cwd(), "docs", "daphne-chepkirui-resume.pdf");
 
   try {
-    const file = await readFile(filePath);
+    const file = await readFile(publicPath).catch(() => readFile(docsPath));
 
     return new Response(file, {
       headers: {

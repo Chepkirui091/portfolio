@@ -69,14 +69,16 @@ export function DemoRequestModal({ project, onClose }: Props) {
           >
             Email demo request
           </a>
+          {site.whatsapp ? (
           <a
-            href={`https://wa.me/254111620160?text=${encodeURIComponent(`Hi Daphne, I'd like a demo of ${project.title}`)}`}
+            href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent(`Hi Daphne, I'd like a demo of ${project.title}`)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="glass flex-1 rounded-full py-3 text-center text-sm font-medium text-foreground"
           >
             WhatsApp
           </a>
+          ) : null}
         </div>
       </div>
     </div>

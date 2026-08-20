@@ -3,9 +3,17 @@ export const siteImages = {
   heroAccent: "/profile/laptop-code.jpg",
 };
 
+export type ProjectShot = {
+  src: string;
+  caption: string;
+  device?: "mobile" | "desktop";
+};
+
 export type ProjectAsset = {
   cover: string;
-  shots: { src: string; caption: string }[];
+  shots: ProjectShot[];
+  desktop?: string;
+  mobile?: string;
 };
 
 /** Each project id maps only to images under its own public folder. */
@@ -68,14 +76,48 @@ export const projectAssets: Record<string, ProjectAsset> = {
   "e-sahal": {
     cover: "/static/sahal/sahal-dashboard.webp",
     shots: [
-      { src: "/static/sahal/sahal-dashboard.webp", caption: "Wallet home & balance" },
-      { src: "/static/sahal/sahal-login.webp", caption: "Authentication & onboarding" },
-      { src: "/static/sahal/sahal-send-money.webp", caption: "Send money flow" },
+      { src: "/static/sahal/sahal-dashboard.webp", caption: "Wallet home & balance", device: "mobile" },
+      { src: "/static/sahal/sahal-login.webp", caption: "Authentication & onboarding", device: "mobile" },
+      { src: "/static/sahal/sahal-send-money.webp", caption: "Send money flow", device: "mobile" },
       {
         src: "/static/sahal/sahal-transactions.webp",
         caption: "Transaction history",
+        device: "mobile",
       },
-      { src: "/static/sahal/sahal-settings.webp", caption: "Account settings" },
+      { src: "/static/sahal/sahal-settings.webp", caption: "Account settings", device: "mobile" },
+    ],
+  },
+
+  // public/static/beautilink/
+  beautilink: {
+    cover: "/static/beautilink/admin/dashboard.png",
+    desktop: "/static/beautilink/admin/dashboard.png",
+    mobile: "/static/beautilink/mobile/dashboard.png",
+    shots: [
+      {
+        src: "/static/beautilink/admin/dashboard.png",
+        caption: "Admin operations dashboard",
+        device: "desktop",
+      },
+      { src: "/static/beautilink/admin/login.png", caption: "Admin login", device: "desktop" },
+      { src: "/static/beautilink/admin/settings.png", caption: "Admin settings", device: "desktop" },
+      {
+        src: "/static/beautilink/mobile/dashboard.png",
+        caption: "Mobile home dashboard",
+        device: "mobile",
+      },
+      {
+        src: "/static/beautilink/mobile/dashboard-customer.png",
+        caption: "Customer dashboard",
+        device: "mobile",
+      },
+      { src: "/static/beautilink/mobile/shop.png", caption: "Shop and bookings", device: "mobile" },
+      { src: "/static/beautilink/mobile/signup.png", caption: "Mobile signup", device: "mobile" },
+      {
+        src: "/static/beautilink/mobile/social-chat.png",
+        caption: "Social chat",
+        device: "mobile",
+      },
     ],
   },
 
@@ -161,14 +203,44 @@ export const projectAssets: Record<string, ProjectAsset> = {
   "habit-flow": {
     cover: "/habit-flow/landing.png",
     shots: [
-      { src: "/habit-flow/landing.png", caption: "Landing & onboarding" },
-      { src: "/habit-flow/habits-list.png", caption: "Habits dashboard" },
+      { src: "/habit-flow/landing.png", caption: "Home dashboard" },
+      { src: "/habit-flow/habits-list.png", caption: "Habits list" },
+      { src: "/habit-flow/projects-module.png", caption: "Learning projects" },
+      { src: "/habit-flow/project-tasks.png", caption: "Project day roadmap" },
+      { src: "/habit-flow/done-clicked.png", caption: "Project check-in and progress" },
       { src: "/habit-flow/analytics.png", caption: "Progress analytics" },
-      { src: "/habit-flow/reminders.png", caption: "Reminders & notifications" },
+      { src: "/habit-flow/reminders.png", caption: "Reminders and notifications" },
       { src: "/habit-flow/settings.png", caption: "User settings" },
     ],
   },
 };
+
+export function isMobileShot(
+  src: string,
+  device?: "mobile" | "desktop"
+): boolean {
+  if (device === "mobile") return true;
+  if (device === "desktop") return false;
+  return /\/mobile\/|\/sahal\//i.test(src);
+}
+
+export function projectVisuals(id: string): {
+  desktop?: string;
+  mobile?: string;
+} {
+  const assets = projectAssets[id];
+  if (!assets) return {};
+  const desktopFromShots = assets.shots.find(
+    (shot) => !isMobileShot(shot.src, shot.device)
+  )?.src;
+  const mobileFromShots = assets.shots.find((shot) =>
+    isMobileShot(shot.src, shot.device)
+  )?.src;
+  return {
+    desktop: assets.desktop ?? desktopFromShots,
+    mobile: assets.mobile ?? mobileFromShots,
+  };
+}
 
 export function projectCover(id: string): string {
   const assets = projectAssets[id];
@@ -181,13 +253,14 @@ export function projectCover(id: string): string {
 export function projectScreenshots(
   id: string,
   fallbackCaptions: string[]
-): { src: string; alt: string; caption: string }[] {
+): { src: string; alt: string; caption: string; device?: "mobile" | "desktop" }[] {
   const assets = projectAssets[id];
   if (assets?.shots.length) {
     return assets.shots.map((shot) => ({
       src: shot.src,
       alt: `${shot.caption} UI preview`,
       caption: shot.caption,
+      device: shot.device,
     }));
   }
   const cover = projectCover(id);

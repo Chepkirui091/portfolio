@@ -6,6 +6,8 @@ import { Layout, Smartphone } from "lucide-react";
 import { featuredProjects, type Project } from "@/data/projects";
 import { SectionHeading } from "./SectionHeading";
 import { BrowserFrame } from "./BrowserFrame";
+import { ProjectVisual } from "./ProjectVisual";
+import { isMobileShot, projectVisuals } from "@/lib/images";
 
 type Props = {
   onOpenPreview: (project: Project) => void;
@@ -19,7 +21,9 @@ export function ProjectUIShowcase({ onOpenPreview }: Props) {
 
   if (!active) return null;
 
-  const isMobile = active.category === "fintech";
+  const pair = projectVisuals(active.id);
+  const firstShot = active.uiScreenshots[0];
+  const isMobile = Boolean(pair.mobile) && !pair.desktop;
 
   return (
     <section
@@ -65,24 +69,29 @@ export function ProjectUIShowcase({ onOpenPreview }: Props) {
             )}
           </div>
 
-          {isMobile ? (
-            <div className="mx-auto max-w-[280px]">
-              <div className="rounded-[2rem] border-[6px] border-border bg-card p-2 shadow-xl">
-                <div className="relative aspect-[9/19] overflow-hidden rounded-[1.4rem] bg-background">
-                  <Image
-                    src={active.uiScreenshots[0]?.src ?? active.coverImage}
-                    alt={active.coverAlt}
-                    fill
-                    className="object-cover object-top"
-                    sizes="280px"
-                    priority
-                  />
-                </div>
+          {pair.desktop && pair.mobile ? (
+            <ProjectVisual
+              projectId={active.id}
+              title={active.title}
+              coverSrc={active.coverImage}
+              coverAlt={active.coverAlt}
+            />
+          ) : isMobile ? (
+            <div className="flex justify-center">
+              <div className="relative h-[340px] w-[170px]">
+                <Image
+                  src={firstShot?.src ?? active.coverImage}
+                  alt={active.coverAlt}
+                  fill
+                  className="object-contain object-center"
+                  sizes="170px"
+                  priority
+                />
               </div>
             </div>
           ) : (
             <BrowserFrame
-              src={active.uiScreenshots[0]?.src ?? active.coverImage}
+              src={firstShot?.src ?? active.coverImage}
               alt={active.coverAlt}
               url={`${active.id}.product`}
               priority
@@ -120,25 +129,30 @@ export function ProjectUIShowcase({ onOpenPreview }: Props) {
           </ul>
 
           <div className="grid grid-cols-2 gap-3 pt-2">
-            {active.uiScreenshots.slice(0, 4).map((shot) => (
-              <button
-                key={shot.src}
-                type="button"
-                onClick={() => onOpenPreview(active)}
-                className="group relative aspect-video overflow-hidden rounded-xl border border-border bg-card transition hover:border-accent/40"
-              >
-                <Image
-                  src={shot.src}
-                  alt={shot.alt}
-                  fill
-                  className="object-cover transition duration-300 group-hover:scale-105"
-                  sizes="240px"
-                />
-                <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/90 to-transparent px-2 py-2 text-left text-[10px] text-foreground">
-                  {shot.caption}
-                </span>
-              </button>
-            ))}
+            {active.uiScreenshots.slice(0, 4).map((shot) => {
+              const mobile = isMobileShot(shot.src, shot.device);
+              return (
+                <button
+                  key={shot.src}
+                  type="button"
+                  onClick={() => onOpenPreview(active)}
+                  className={`group relative overflow-hidden rounded-xl border border-border bg-card transition hover:border-accent/40 ${
+                    mobile ? "aspect-[9/16]" : "aspect-video"
+                  }`}
+                >
+                  <Image
+                    src={shot.src}
+                    alt={shot.alt}
+                    fill
+                    className="object-contain object-top"
+                    sizes="240px"
+                  />
+                  <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/90 to-transparent px-2 py-2 text-left text-[10px] text-foreground">
+                    {shot.caption}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>

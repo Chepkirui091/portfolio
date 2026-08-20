@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, ExternalLink, Play, X } from "lucide-react";
 import type { Project } from "@/data/projects";
 import { canRequestLiveDemo, getLiveDemoUrl } from "@/lib/project-links";
 import { BrowserFrame } from "./BrowserFrame";
-import { ExternalLink, Play } from "lucide-react";
+import { isMobileShot } from "@/lib/images";
 
 type Props = {
   project: Project | null;
@@ -45,6 +45,7 @@ export function ProjectPreviewModal({ project, onClose }: Props) {
 
   const shots = project.uiScreenshots;
   const current = shots[index];
+  const mobile = isMobileShot(current.src, current.device);
 
   return (
     <div
@@ -81,12 +82,27 @@ export function ProjectPreviewModal({ project, onClose }: Props) {
         </div>
 
         <div className="overflow-y-auto p-4 sm:p-6">
-          <BrowserFrame
-            src={current.src}
-            alt={current.alt}
-            url={`${project.id}.demo`}
-            priority
-          />
+          {mobile ? (
+            <div className="flex justify-center">
+              <div className="relative h-[min(70vh,560px)] w-full max-w-[280px]">
+                <Image
+                  src={current.src}
+                  alt={current.alt}
+                  fill
+                  className="object-contain object-center"
+                  sizes="280px"
+                  priority
+                />
+              </div>
+            </div>
+          ) : (
+            <BrowserFrame
+              src={current.src}
+              alt={current.alt}
+              url={`${project.id}.demo`}
+              priority
+            />
+          )}
           <p className="mt-3 text-center text-sm text-muted">{current.caption}</p>
 
           {shots.length > 1 && (
@@ -116,26 +132,31 @@ export function ProjectPreviewModal({ project, onClose }: Props) {
           )}
 
           <div className="mt-5 grid grid-cols-3 gap-2 sm:grid-cols-4">
-            {shots.map((shot, i) => (
-              <button
-                key={shot.src}
-                type="button"
-                onClick={() => setIndex(i)}
-                className={`relative aspect-video overflow-hidden rounded-lg border-2 transition ${
-                  i === index
-                    ? "border-accent ring-2 ring-accent/30"
-                    : "border-border opacity-70 hover:opacity-100"
-                }`}
-              >
-                <Image
-                  src={shot.src}
-                  alt={shot.alt}
-                  fill
-                  className="object-cover"
-                  sizes="120px"
-                />
-              </button>
-            ))}
+            {shots.map((shot, i) => {
+              const shotMobile = isMobileShot(shot.src, shot.device);
+              return (
+                <button
+                  key={shot.src}
+                  type="button"
+                  onClick={() => setIndex(i)}
+                  className={`relative overflow-hidden rounded-lg border-2 bg-surface transition ${
+                    shotMobile ? "aspect-[9/16]" : "aspect-video"
+                  } ${
+                    i === index
+                      ? "border-accent ring-2 ring-accent/30"
+                      : "border-border opacity-70 hover:opacity-100"
+                  }`}
+                >
+                  <Image
+                    src={shot.src}
+                    alt={shot.alt}
+                    fill
+                    className="object-contain object-top"
+                    sizes="120px"
+                  />
+                </button>
+              );
+            })}
           </div>
 
           <div className="mt-5 flex flex-wrap gap-2 border-t border-border pt-4">

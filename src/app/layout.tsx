@@ -17,22 +17,24 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Daphne Chepkirui | Frontend Software Engineer",
+  title: "Daphne Chepkirui | Full-Stack Software Developer",
   description:
-    "Portfolio of Daphne Chepkirui, UI/UX-focused frontend engineer building healthcare, insurance, fintech, and edtech products with React, Next.js, and TypeScript.",
+    "Full-stack software developer in Nairobi. Web with React and Next.js, APIs with NestJS and Django, mobile with Expo. Healthcare, insurance, fintech, and marketplace products.",
   keywords: [
-    "frontend developer",
-    "React",
-    "Next.js",
-    "Nairobi",
-    "UI/UX",
+    "Full-Stack Developer",
+    "JavaScript",
     "TypeScript",
+    "Next.js",
+    "NestJS",
+    "Expo",
+    "React Native",
+    "Nairobi",
   ],
   authors: [{ name: "Daphne Chepkirui" }],
   openGraph: {
-    title: "Daphne Chepkirui | Frontend Software Engineer",
+    title: "Daphne Chepkirui | Full-Stack Software Developer",
     description:
-      "Enterprise web & mobile products: healthcare, insurance, fintech, edtech.",
+      "Building modern web and mobile applications with React, Next.js, NestJS, Django, PostgreSQL, and AI-assisted development workflows.",
     type: "website",
   },
 };

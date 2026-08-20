@@ -6,8 +6,8 @@ export function Skills() {
     <section id="skills" className="section-pad section-divider">
       <SectionHeading
         eyebrow="Technical skills"
-        title="Skills"
-        description="Languages, frameworks, tools, and testing."
+        title="Stack"
+        description="Frontend, backend, mobile, and the tools I use to ship."
       />
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {skillGroups.map((group) => (

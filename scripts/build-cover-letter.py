@@ -4,6 +4,7 @@ Run: python scripts/build-cover-letter.py
 """
 
 from pathlib import Path
+import json
 
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
@@ -56,12 +57,26 @@ def main() -> None:
     r.font.size = Pt(16)
     r.font.color.rgb = BLUE
 
+    private = {}
+    private_path = DOCS / "resume-private.json"
+    if private_path.exists():
+        private = json.loads(private_path.read_text(encoding="utf-8"))
+    phone_display = private.get("phone_display") or private.get("phone") or ""
+
     contact = doc.add_paragraph()
     contact.add_run("Nairobi, Kenya\n")
     p = doc.add_paragraph()
     add_hyperlink(p, "chepkiruidaphne91@gmail.com", "mailto:chepkiruidaphne91@gmail.com")
-    p.add_run(" | +254 111 620 160\nPortfolio: ")
+    if phone_display:
+        p.add_run(f" | {phone_display}")
+    p.add_run("\nPortfolio: ")
     add_hyperlink(p, "portfolio-omega-umber-28.vercel.app", PORTFOLIO)
+    p.add_run(" | ")
+    add_hyperlink(
+        p,
+        "LinkedIn",
+        "https://www.linkedin.com/in/daphne-chepkirui-382178313",
+    )
 
     doc.add_paragraph()
 
@@ -78,25 +93,22 @@ def main() -> None:
     paragraphs = [
         (
             "I am writing to apply for the [Job Title] role at [Company Name]. "
-            "I am a frontend engineer based in Nairobi with 3+ years building production web "
-            "and mobile products in React, Next.js, React Native, and TypeScript. Your team's "
-            "focus on [one specific thing from the job post] lines up closely with the work I "
-            "have been doing, and I would like to bring that experience to [Company Name]."
+            "I am a JavaScript and TypeScript developer based in Nairobi. I ship products "
+            "across the stack: Next.js on the web, NestJS for APIs, and Expo React Native on mobile. "
+            "Your team's focus on [one specific thing from the job post] lines up with the work I "
+            "have been doing, and I would like to bring that to [Company Name]."
         ),
         (
-            "At Dynamic Mobility Technology, I lead frontend work on KISRS, a healthcare referral "
-            "platform used by hospitals and laboratories across Kenya. That meant role-based workflows "
-            "for clinicians and lab staff, real-time referral dashboards, and close work with backend "
-            "engineers to ship a stable UAT release. I have also built insurance admin and agents portals "
-            "(claims, commissions, bookings, and reporting), contributed to e-Sahal (a React Native fintech "
-            "wallet), and led UI for a carbon credits reporting platform. Across these projects I am used "
-            "to RBAC, dense admin interfaces, and shipping under NDA when needed."
+            "At Dynamic Mobility Technology I have shipped real products. KISRS is live in UAT for "
+            "hospitals and labs (referral dashboards and RBAC). I built BeautiLink, a beauty and wellness "
+            "marketplace: Next.js admin, NestJS APIs, and an Expo app for shop, chat, and dashboards. "
+            "I also delivered insurance admin and agents portals, e-Sahal wallet flows, and CarbonFlow reporting. "
+            "I am used to dense ops UIs, RBAC, and NDA work."
         ),
         (
-            "Before that, I built offline-first POS and MRP systems at Tenzi Limited, freelance CBC student "
-            "tooling for Upeo, and several personal projects that are live on Vercel. I care about how "
-            "products feel, not just whether they compile: responsive layout, accessibility, design systems, "
-            "and performance habits like code splitting and lazy loading are part of my normal workflow."
+            "Before that I shipped offline-first POS and MRP at Tenzi Limited, a CBC student portal for Upeo, "
+            "and several public Next.js apps. I care about how products feel and how they hold up: accessibility, "
+            "code splitting, lazy loading, and clear handoffs are part of how I work."
         ),
     ]
 

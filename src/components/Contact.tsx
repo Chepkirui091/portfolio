@@ -40,18 +40,32 @@ export function Contact() {
               {site.email}
             </a>
           </div>
+          {site.phone && site.whatsapp ? (
           <div className="glass rounded-2xl p-6">
             <p className="text-sm text-muted">Phone / WhatsApp</p>
             <a
-              href="https://wa.me/254111620160"
+              href={`https://wa.me/${site.whatsapp}`}
               className="mt-1 block font-medium text-foreground hover:text-accent"
             >
               {site.phone}
             </a>
           </div>
+          ) : null}
           <div className="glass rounded-2xl p-6">
-            <p className="text-sm text-muted">GitHub</p>
+            <p className="text-sm text-muted">Find me online</p>
             <ul className="mt-2 space-y-1">
+              {site.linkedin ? (
+                <li>
+                  <a
+                    href={site.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-accent hover:underline"
+                  >
+                    LinkedIn
+                  </a>
+                </li>
+              ) : null}
               {site.github.map((g) => (
                 <li key={g.url}>
                   <a
@@ -64,21 +78,18 @@ export function Contact() {
                   </a>
                 </li>
               ))}
+              <li>
+                <a
+                  href={site.portfolioUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-accent hover:underline"
+                >
+                  Portfolio
+                </a>
+              </li>
             </ul>
           </div>
-          {site.linkedin ? (
-            <div className="glass rounded-2xl p-6">
-              <p className="text-sm text-muted">LinkedIn</p>
-              <a
-                href={site.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-1 block text-sm font-medium text-accent hover:underline"
-              >
-                linkedin.com/in/{site.linkedinLabel}
-              </a>
-            </div>
-          ) : null}
           <a
             href={site.resumePath}
             download={site.resumeFilename}

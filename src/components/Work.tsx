@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Image from "next/image";
 import { Code2, ExternalLink, Images, Lock, Play } from "lucide-react";
 import {
   projects,
@@ -11,6 +10,7 @@ import {
 } from "@/data/projects";
 import { canRequestLiveDemo, getLiveDemoUrl } from "@/lib/project-links";
 import { site } from "@/data/site";
+import { ProjectVisual } from "./ProjectVisual";
 import { SectionHeading } from "./SectionHeading";
 import { CuratedProjects } from "./CuratedProjects";
 import { DemoRequestModal } from "./DemoRequestModal";
@@ -43,14 +43,14 @@ function ProjectCard({
       <button
         type="button"
         onClick={() => onPreview(project)}
-        className="relative aspect-[16/10] w-full overflow-hidden border-b border-border"
+        className="relative w-full overflow-hidden border-b border-border"
       >
-        <Image
-          src={project.coverImage}
-          alt={project.coverAlt}
-          fill
-          className="object-cover transition duration-500 group-hover:scale-[1.03]"
-          sizes="(max-width: 640px) 100vw, 50vw"
+        <ProjectVisual
+          projectId={project.id}
+          title={project.title}
+          coverSrc={project.coverImage}
+          coverAlt={project.coverAlt}
+          size="card"
         />
         <span className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
         <span className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-background/90 px-3 py-1.5 text-xs font-medium text-foreground opacity-0 shadow-lg backdrop-blur transition group-hover:opacity-100">
@@ -78,7 +78,7 @@ function ProjectCard({
           <p className="text-sm text-muted">{project.subtitle}</p>
         </div>
 
-        <p className="mt-4 text-sm leading-relaxed text-muted">{project.problem}</p>
+        <p className="mt-4 text-sm leading-relaxed text-muted">{project.description}</p>
         <p className="mt-2 flex-1 text-xs leading-relaxed text-muted/90">
           <span className="font-medium text-foreground/80">My role: </span>
           {project.role}
@@ -185,7 +185,7 @@ export function Work() {
         <SectionHeading
           eyebrow="All projects"
           title="Full project library"
-          description="All projects with problem, role, stack, and links. Live demos where hosted; private demos for NDA work. Tenzi is discontinued with no live site."
+          description="All projects with what I built, my role, stack, and links. Live demos where hosted; private demos for NDA work. Tenzi is discontinued with no live site."
         />
 
         <div className="mb-8 flex flex-wrap gap-2">

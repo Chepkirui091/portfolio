@@ -40,24 +40,28 @@ next-env.d.ts
 # IDE
 .idea/
 
-# Resume sources (reference phone numbers; PDF at docs/daphne-chepkirui-resume.pdf is served via /api/resume)
-docs/daphne-chepkirui-resume.docx
-docs/daphne-chepkirui-resume.md
-docs/daphne-chepkirui-cover-letter.md
-docs/daphne-chepkirui-cover-letter.docx
-# Optional: ignore PDF too if you only generate locally (remove line to commit the PDF)
-# docs/daphne-chepkirui-resume.pdf
+# Generated CVs, resumes, and cover letters (keep local; do not push)
+docs/*.pdf
+docs/*.docx
+docs/*.md
 docs/_resume_extract/
 docs/_resume.zip
-docs/.~lock.*
+docs/resume-private.json
+public/*.pdf
+public/**/*.pdf
 
-# Local images (keep folders; add your screenshots under public/ on each machine)
+# Local screenshots (keep folders; add your screenshots under public/ on each machine)
 public/**/*.png
 public/**/*.jpg
 public/**/*.jpeg
 public/**/*.webp
 public/**/*.gif
 public/**/*.zip
+# Profile photos must ship with the site
+!public/profile/*.jpg
+!public/profile/*.jpeg
+!public/profile/*.webp
+!public/profile/*.png
 public/profile/iCloud*/
 public/profile/**/3D6238E0*
 

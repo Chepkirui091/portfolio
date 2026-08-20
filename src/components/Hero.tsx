@@ -39,9 +39,8 @@ export function Hero() {
               className="max-w-4xl text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl lg:text-[3.25rem]"
             >
               I build{" "}
-              <span className="text-gradient">solid, accessible</span>{" "}
-              frontend products across healthcare, insurance, fintech, and
-              edtech.
+              <span className="text-gradient">full-stack</span> web and mobile
+              products: Next.js on the web, NestJS on the API, Expo on mobile.
             </motion.h1>
 
             <motion.p
@@ -50,8 +49,9 @@ export function Hero() {
               transition={{ duration: 0.55, delay: 0.16 }}
               className="mt-6 max-w-2xl text-lg leading-relaxed text-muted"
             >
-              {site.name} - {site.title}. {site.tagline}. 3+ years with React,
-              Next.js, React Native, and TypeScript.
+              {site.name} - {site.title}. {site.tagline}. Healthcare, insurance,
+              fintech, edtech, and marketplace products shipped to production
+              and UAT.
             </motion.p>
 
             <motion.div
@@ -132,7 +132,7 @@ export function Hero() {
                 <div className="relative aspect-[4/5] w-full">
                   <Image
                     src={siteImages.avatar}
-                    alt={`${site.name}, frontend engineer`}
+                    alt={`${site.name}, full-stack software developer`}
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 90vw, 420px"

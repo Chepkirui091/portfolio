@@ -13,6 +13,7 @@ export type UiScreenshot = {
   src: string;
   alt: string;
   caption: string;
+  device?: "mobile" | "desktop";
 };
 
 export type Project = {
@@ -58,12 +59,12 @@ export const projects: Project[] = [
     title: "KISRS",
     subtitle: "Kenya Integrated Sample Referral System",
     category: "healthcare",
-    stack: ["React", "Next.js", "JavaScript", "MUI", "RBAC"],
+    stack: ["Next.js", "TypeScript", "JavaScript", "MUI", "RBAC"],
     description:
       "Healthcare platform enabling hospitals and laboratories to manage digital test referrals, tracking, and inter-facility coordination.",
     problem:
       "Hospitals and laboratories needed a unified way to coordinate test referrals, track samples, and manage roles across facilities.",
-    role: "Lead frontend developer. Built referral workflows, RBAC dashboards, facility views, and production UI with the backend team.",
+    role: "Software engineer. Shipped referral workflows, RBAC dashboards, facility views, and the UAT release with the backend team.",
     highlights: [
       "Role-based workflows for clinicians, lab staff, and admins",
       "Real-time referral dashboards",
@@ -82,6 +83,35 @@ export const projects: Project[] = [
     ]),
   },
   {
+    id: "beautilink",
+    title: "BeautiLink",
+    subtitle: "Beauty & wellness marketplace",
+    category: "enterprise",
+    stack: ["Next.js", "NestJS", "Expo", "React Native", "TypeScript"],
+    description:
+      "A multi-platform marketplace connecting customers, beauty professionals, and businesses, with booking, discovery, and business management in one ecosystem.",
+    problem:
+      "A multi-platform marketplace connecting customers, beauty professionals, and businesses.",
+    role: "Founder and full-stack engineer. Designed and built the admin platform, NestJS API layer, and Expo mobile experience.",
+    highlights: [
+      "Admin platform for business operations",
+      "NestJS API shared by web and mobile",
+      "Expo app: shop, booking, and chat",
+    ],
+    confidential: false,
+    liveUrl: "https://beautilink-admin-portal.vercel.app/",
+    liveDemoOnRequest: true,
+    year: "2026",
+    featured: true,
+    coverImage: projectCover("beautilink"),
+    coverAlt: "BeautiLink admin dashboard and mobile app",
+    uiScreenshots: shots("beautilink", [
+      "Admin operations dashboard",
+      "Mobile home dashboard",
+      "Shop and bookings",
+    ]),
+  },
+  {
     id: "insurance-admin",
     title: "Insurance Admin Portal",
     subtitle: "Enterprise operations console",
@@ -91,7 +121,7 @@ export const projects: Project[] = [
       "Full-stack admin portal for insurance operations: agents, commissions, digital store, claims journey, product onboarding, and reporting.",
     problem:
       "Insurance operations teams needed one secure console to manage agents, claims, commissions, and partner reporting.",
-    role: "Frontend engineer. Built admin dashboards, claims journey UI, Redux flows, and RBAC across ops modules.",
+    role: "Software engineer. Built admin dashboards, claims journey UI, Redux flows, and RBAC across ops modules.",
     highlights: [
       "Agent management & commission settings",
       "Digital store applications & underwriting",
@@ -99,7 +129,7 @@ export const projects: Project[] = [
       "Partner management & user roles",
     ],
     confidential: true,
-    liveDemoOnRequest: true,
+    liveUrl: "http://134.209.70.221:3050/",
     year: "2025-2026",
     featured: true,
     coverImage: projectCover("insurance-admin"),
@@ -121,14 +151,14 @@ export const projects: Project[] = [
       "Agent-facing portal for bookings, customer management, policy workflows, and operational dashboards with secure RBAC.",
     problem:
       "Insurance agents needed a dedicated workspace for bookings, customers, and policy tools outside the admin console.",
-    role: "Frontend engineer. Built agent dashboards, booking flows, customer screens, and copilot UI.",
+    role: "Software engineer. Built agent dashboards, booking flows, customer screens, and copilot UI.",
     highlights: [
       "Agent workspace with bookings and customer views",
       "Policy calculators and guided workflows",
       "Reporting for partners and internal teams",
     ],
     confidential: true,
-    liveDemoOnRequest: true,
+    liveUrl: "http://134.209.70.221:3151/",
     year: "2025-2026",
     coverImage: projectCover("agents-portal"),
     coverAlt: "Insurance agents portal dashboard",
@@ -143,12 +173,12 @@ export const projects: Project[] = [
     title: "e-Sahal",
     subtitle: "Mobile fintech application",
     category: "fintech",
-    stack: ["React Native", "TypeScript", "Mobile UX"],
+    stack: ["Expo", "React Native", "TypeScript"],
     description:
-      "Fintech mobile app for the Ethiopian market wallet management, transactions, authentication, and user dashboards.",
+      "Fintech mobile app for the Ethiopian market: wallet, transactions, authentication, and user dashboards.",
     problem:
       "Users in the Ethiopian market needed a reliable mobile wallet for balances, transfers, and secure onboarding.",
-    role: "React Native engineer. Built wallet, send-money, transaction history, and auth flows.",
+    role: "Software engineer. Built wallet, send-money, transaction history, and auth flows on Expo React Native.",
     highlights: [
       "Wallet & transaction flows",
       "Authentication and onboarding",
@@ -177,7 +207,7 @@ export const projects: Project[] = [
       "Competency-Based Curriculum portal for students: curriculum-aligned content, progress tracking, and learner workflows.",
     problem:
       "Learners and educators needed a CBC-aligned portal for curriculum content, progress, and accessible student workflows.",
-    role: "Freelance frontend developer. Built responsive learner UI, auth, and API-backed student flows.",
+    role: "Software engineer. Built responsive learner UI, auth, and API-backed student flows in Next.js.",
     highlights: [
       "CBC-aligned student experience",
       "Content delivery & progress tracking",
@@ -204,7 +234,7 @@ export const projects: Project[] = [
       "Scalable POS with real-time sales, inventory sync, and uninterrupted operation during network outages. Product discontinued.",
     problem:
       "Retail teams needed checkout and inventory that kept working through network outages and high transaction volume.",
-    role: "Frontend engineer. Built offline-first POS UI, IndexedDB sync, and cashier/manager views.",
+    role: "Software engineer. Built offline-first POS UI, IndexedDB sync, and cashier/manager views.",
     highlights: [
       "Offline-first with automatic reconnect sync",
       "RBAC for cashiers, managers, and admins",
@@ -227,7 +257,7 @@ export const projects: Project[] = [
       "MRP system for procurement, production planning, inventory management, and operational reporting. Product discontinued.",
     problem:
       "Operations teams needed procurement, production planning, and inventory visibility in one planning system.",
-    role: "Frontend engineer. Built procurement and inventory dashboards, planning boards, and reporting UI.",
+    role: "Software engineer. Built procurement and inventory dashboards, planning boards, and reporting UI.",
     highlights: [
       "Procurement & inventory dashboards",
       "Production planning workflows",
@@ -247,12 +277,12 @@ export const projects: Project[] = [
     title: "Carbon Credits Platform",
     subtitle: "Sustainability reporting",
     category: "enterprise",
-    stack: ["React", "Next.js", "Dashboards"],
+    stack: ["Next.js", "TypeScript", "NestJS"],
     description:
       "Carbon credits reporting with feasibility studies, field data, and dashboards (ABPL collaboration).",
     problem:
-      "Stakeholders needed feasibility studies, gate criteria, field data, and AI-assisted recommendations for carbon projects.",
-    role: "Frontend engineer. Built reporting dashboards, embedded forms, and feasibility workflow screens.",
+      "Teams needed feasibility studies, gate criteria, field data, and AI-assisted recommendations for carbon projects.",
+    role: "Software engineer. Built reporting dashboards, embedded forms, and feasibility workflow screens.",
     highlights: [
       "Reporting dashboards",
       "Reporting for project teams and partners",
@@ -283,7 +313,6 @@ export const projects: Project[] = [
     confidential: false,
     liveUrl: "https://data-aggregation-firm.vercel.app/",
     year: "2025",
-    featured: true,
     coverImage: projectCover("data-agg"),
     coverAlt: "Data aggregation analytics UI",
     uiScreenshots: shots("data-agg", [
@@ -321,26 +350,30 @@ export const projects: Project[] = [
   {
     id: "habit-flow",
     title: "Habit Flow",
-    subtitle: "Personal habit tracking",
+    subtitle: "Habits, projects, and activity tracking",
     category: "personal",
-    stack: ["Next.js", "TypeScript", "Tailwind"],
+    stack: ["Next.js", "TypeScript", "Tailwind", "REST API"],
     description:
-      "Habit tracking app with streaks, reminders, analytics, and a mobile-friendly UI.",
+      "A personal activity tracker I use to log habits and learning work. The Next.js app fetches habits, project roadmaps, check-ins, streaks, and analytics from a backend API so progress is saved and I can see what I completed, skipped, or missed over time. Learning projects split each day into a checklist with unlocks as I go.",
     problem:
-      "People building habits need streaks, reminders, and simple analytics without a cluttered experience.",
-    role: "Personal project. Built landing, habits, reminders, analytics, and settings screens.",
+      "I needed one place to track daily habits and longer learning projects, with history that lives on a backend instead of only in the browser.",
+    role: "Personal project. Built the Next.js UI and wired it to a backend API for habits, project progress, reminders, analytics, and settings.",
     highlights: [
-      "Habit tracking & streaks",
-      "Reminders and notifications",
-      "Progress analytics dashboard",
+      "API-backed habits, streaks, and activity history",
+      "Learning projects with daily checklists and unlocks",
+      "Reminders, heatmaps, and progress analytics",
     ],
     confidential: false,
-    year: "2025",
+    liveUrl: "https://didactic-eureka-psi.vercel.app/",
+    year: "2025-2026",
     coverImage: projectCover("habit-flow"),
-    coverAlt: "Habit Flow landing page",
+    coverAlt: "Habit Flow home dashboard",
     uiScreenshots: shots("habit-flow", [
-      "Landing & onboarding",
-      "Habits dashboard",
+      "Home dashboard",
+      "Habits list",
+      "Learning projects",
+      "Project day roadmap",
+      "Project check-in and progress",
       "Progress analytics",
     ]),
   },

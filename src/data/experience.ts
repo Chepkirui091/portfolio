@@ -8,39 +8,40 @@ export type ExperienceItem = {
 
 export const experience: ExperienceItem[] = [
   {
-    role: "Frontend Developer",
+    role: "Software Engineer",
     company: "Dynamic Mobility Technology",
     period: "Feb 2024 - Present",
     location: "Kenya",
     highlights: [
-      "Lead frontend for KISRS healthcare referral platform with RBAC and real-time dashboards.",
-      "Enterprise insurance admin portals, agents portal, calculators, and operational reporting.",
-      "React Native fintech (e-Sahal): wallets, transactions, and authentication flows.",
-      "Carbon-credits sustainability dashboards with ABPL.",
+      "Shipped KISRS to UAT for hospitals and labs: RBAC, referral dashboards, and production Next.js UI.",
+      "Founded BeautiLink and built it across the stack: Next.js admin, NestJS APIs, and Expo React Native (shop, chat, dashboards).",
+      "Delivered insurance admin portal (http://134.209.70.221:3050/) and agents portal (http://134.209.70.221:3151/) covering claims, commissions, bookings, and reporting.",
+      "Shipped e-Sahal wallet flows on Expo React Native: auth, send money, and transaction history.",
+      "Built carbon credits reporting (CarbonFlow) with feasibility workflows and field data screens.",
     ],
   },
   {
-    role: "Freelance Frontend Developer",
+    role: "Freelance Software Engineer",
     company: "Upeo",
     period: "Freelance",
     location: "Kenya",
     highlights: [
-      "Built a CBC (Competency-Based Curriculum) student portal for learners and curriculum workflows.",
-      "Responsive UI, API integration, and UX aligned to Kenya's CBC model.",
+      "Built a CBC student portal for learners: curriculum content, progress tracking, and API-backed flows.",
+      "Shipped a responsive Next.js experience aligned to Kenya's CBC model.",
     ],
   },
   {
-    role: "Frontend Developer",
+    role: "Software Engineer",
     company: "Tenzi Limited",
     period: "May 2024 - Jan 2025",
     location: "Kenya",
     highlights: [
-      "Architected Tenzi-MRP for procurement, inventory, and production planning.",
-      "Shipped Tenzi-POS with offline-first IndexedDB sync and RBAC.",
+      "Shipped Tenzi-MRP for procurement, inventory, and production planning.",
+      "Shipped Tenzi-POS with offline-first IndexedDB sync so checkout kept working during outages.",
     ],
   },
   {
-    role: "Frontend Developer",
+    role: "Software Engineer",
     company: "CityRight Limited",
     period: "Oct 2023 - Jan 2024",
     location: "Kenya",
@@ -49,7 +50,7 @@ export const experience: ExperienceItem[] = [
     ],
   },
   {
-    role: "Frontend Developer",
+    role: "Software Engineer",
     company: "Computer Engineering Forum",
     period: "Apr 2023 - Jul 2023",
     location: "Remote",

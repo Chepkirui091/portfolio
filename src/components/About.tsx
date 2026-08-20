@@ -8,8 +8,8 @@ export function About() {
     <section id="about" className="section-pad section-divider">
       <SectionHeading
         eyebrow="About me"
-        title="The person behind the code"
-        description="A bit about my background and how I like to work."
+        title="How I work"
+        description="Frontend, APIs, mobile, and data across the products I ship."
       />
       <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
         <div className="relative">
@@ -36,21 +36,24 @@ export function About() {
         <div className="space-y-6">
           <div className="space-y-4 leading-relaxed text-muted">
             <p>
-              I am a frontend engineer in Nairobi, Kenya. I like taking messy
-              workflows and turning them into clear screens, whether that is a
-              healthcare referral flow, an insurance admin console, or a mobile
-              wallet.
+              I am a full-stack software developer in Nairobi, Kenya. I ship
+              products end to end: Next.js on the web, NestJS and Django for
+              APIs, PostgreSQL for data, and Expo React Native on mobile. I like
+              taking messy workflows and turning them into clear screens and
+              reliable backends.
             </p>
             <p>
-              Over the last few years I have worked on healthcare (KISRS),
-              insurance admin and agents portals, fintech (e-Sahal), edtech
-              (Upeo CBC), carbon reporting, and a few personal apps. I am
-              comfortable with UI/UX work and with the engineering side: RBAC,
-              dashboards, offline-first patterns, and keeping apps fast.
+              Recent work includes KISRS (healthcare UAT for hospitals and labs),
+              BeautiLink (beauty marketplace I founded), insurance admin and agents
+              portals, e-Sahal (fintech wallet), Upeo CBC (edtech), and
+              CarbonFlow. I have also shipped offline-first POS and MRP systems
+              and several public Next.js apps.
             </p>
             <p>
-              I work closely with backend developers and product teams, mentor
-              when I can, and try to leave clear docs and handoffs behind.
+              I work closely with product and backend teams, mentor when I can,
+              and leave clear docs and handoffs. Accessibility, RBAC, and
+              performance (code splitting, lazy loading, Web Vitals) are part of
+              the job, not extras.
             </p>
           </div>
           <div className="glass rounded-2xl p-6 sm:p-8">
@@ -60,16 +63,16 @@ export function About() {
             <ul className="mt-4 space-y-3 text-sm text-muted">
               <li className="flex gap-2">
                 <span className="shrink-0 font-mono text-accent">{"->"}</span>
-                End-to-end ownership from wireframes to production UI
+                Next.js web, NestJS APIs, and Expo React Native apps
               </li>
               <li className="flex gap-2">
                 <span className="shrink-0 font-mono text-accent">{"->"}</span>
-                Design systems, MUI/Tailwind, and WCAG-minded accessibility
+                Products shipped to UAT and production: healthcare, insurance,
+                fintech, edtech
               </li>
               <li className="flex gap-2">
                 <span className="shrink-0 font-mono text-accent">{"->"}</span>
-                Offline-first and high-volume transaction experience (POS,
-                fintech)
+                Offline-first POS, RBAC dashboards, and high-volume transaction UI
               </li>
               <li className="flex gap-2">
                 <span className="shrink-0 font-mono text-accent">{"->"}</span>

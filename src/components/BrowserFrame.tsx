@@ -34,7 +34,7 @@ export function BrowserFrame({
             src={src}
             alt={alt}
             fill
-            className="object-cover object-top"
+            className="object-contain object-top"
             sizes="(max-width: 768px) 100vw, 50vw"
             priority={priority}
           />

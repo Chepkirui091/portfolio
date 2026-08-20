@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import {
   ExternalLink,
   Code2,
@@ -11,6 +10,7 @@ import {
 import { featuredProjects, type Project } from "@/data/projects";
 import { canRequestLiveDemo, getLiveDemoUrl } from "@/lib/project-links";
 import { SectionHeading } from "./SectionHeading";
+import { ProjectVisual } from "./ProjectVisual";
 import { site } from "@/data/site";
 
 function ProjectImage({
@@ -26,25 +26,24 @@ function ProjectImage({
     <button
       type="button"
       onClick={() => onPreview(project)}
-      className={`group relative aspect-[16/10] min-h-[220px] w-full overflow-hidden border-border sm:min-h-[260px] lg:aspect-auto lg:min-h-[300px] ${
+      className={`group relative w-full overflow-hidden border-border ${
         imageOnRight
           ? "border-b lg:order-2 lg:border-b-0 lg:border-l"
           : "border-b lg:order-1 lg:border-b-0 lg:border-r"
       }`}
     >
-      <Image
-        src={project.coverImage}
-        alt={project.coverAlt}
-        fill
-        className="object-cover transition duration-500 group-hover:scale-[1.02]"
-        sizes="(max-width: 1024px) 100vw, 50vw"
+      <ProjectVisual
+        projectId={project.id}
+        title={project.title}
+        coverSrc={project.coverImage}
+        coverAlt={project.coverAlt}
       />
-      <span className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-background/90 px-3 py-1.5 text-xs font-medium opacity-0 shadow-lg backdrop-blur transition group-hover:opacity-100">
+      <span className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-background/90 px-3 py-1.5 text-xs font-medium opacity-0 shadow-lg backdrop-blur transition group-hover:opacity-100">
         <Images size={14} />
         View UI
       </span>
       {project.confidential && (
-        <span className="absolute left-3 top-3 flex items-center gap-1 rounded-full bg-background/90 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wide text-muted backdrop-blur">
+        <span className="absolute left-3 top-3 z-10 flex items-center gap-1 rounded-full bg-background/90 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wide text-muted backdrop-blur">
           <Lock size={10} /> NDA
         </span>
       )}
@@ -90,12 +89,7 @@ function ProjectDetails({
       <p className="text-sm text-muted">{project.subtitle}</p>
 
       <div className="mt-5 space-y-4 text-sm">
-        <div>
-          <p className="text-xs font-medium uppercase tracking-wide text-accent">
-            The problem
-          </p>
-          <p className="mt-1 leading-relaxed text-muted">{project.problem}</p>
-        </div>
+        <p className="leading-relaxed text-muted">{project.description}</p>
         <div>
           <p className="text-xs font-medium uppercase tracking-wide text-accent">
             My role
@@ -137,7 +131,7 @@ function ProjectDetails({
             onClick={() => onRequestDemo(project)}
             className="inline-flex items-center gap-1.5 rounded-full bg-accent/15 px-4 py-2 text-xs font-medium text-accent transition hover:bg-accent/25"
           >
-            <Play size={12} /> Request live demo
+            <Play size={12} /> Request demo
           </button>
         )}
         {project.repoUrl && (
@@ -222,7 +216,7 @@ export function CuratedProjects({ onPreview, onRequestDemo }: Props) {
       <SectionHeading
         eyebrow="Featured work"
         title="Curated projects"
-        description="Five recent projects with the problem, my role, stack, and links. Public demos where hosted; private demos for NDA work. Tenzi is discontinued with no live site."
+        description="What I built, what I did, and the stack. Public demos where hosted; private demos for NDA work."
       />
 
       <div className="space-y-10 lg:space-y-14">

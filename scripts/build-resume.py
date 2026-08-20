@@ -5,8 +5,11 @@ Run: python scripts/build-resume.py
 
 from __future__ import annotations
 
+import json
+import os
 import re
 from pathlib import Path
+import shutil
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.opc.constants import RELATIONSHIP_TYPE as RT
@@ -18,6 +21,7 @@ from fpdf import FPDF
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 RESUME_PDF = DOCS / "daphne-chepkirui-resume.pdf"
+PUBLIC_RESUME = ROOT / "public" / "Daphne_Chepkirui_Resume.pdf"
 
 # Titles and links only (skills body stays black)
 BLUE = (37, 99, 235)  # #2563eb
@@ -27,91 +31,82 @@ BLACK_HEX = "#0f172a"
 
 CONTACT = {
     "name": "DAPHNE CHEPKIRUI",
-    "title": "Frontend Software Engineer",
+    "title": "Full-Stack Software Developer",
     "location": "Nairobi, Kenya",
     "email": "chepkiruidaphne91@gmail.com",
-    "phone": "+254111620160",
-    "phone_display": "+254 111 620 160",
-    "github": [
-        ("Chepkirui091", "https://github.com/Chepkirui091"),
-        ("DMT-Daph", "https://github.com/DMT-Daph"),
-    ],
+    "phone": "",
+    "phone_display": "",
+    "linkedin": "https://www.linkedin.com/in/daphne-chepkirui-382178313",
+    "github": ("DMT-Daph", "https://github.com/DMT-Daph"),
+    "portfolio": "https://portfolio-omega-umber-28.vercel.app/",
 }
 
 SUMMARY = (
-    "Frontend engineer with 3+ years building web and mobile apps in React, Next.js, "
-    "React Native, JavaScript, and TypeScript. Recent work includes KISRS (healthcare), "
-    "insurance admin and agents portals, e-Sahal (fintech), Upeo CBC (edtech), and a "
-    "carbon credits reporting platform. Strong UI/UX skills (design systems, accessibility, "
-    "responsive layout) and solid frontend performance habits (code splitting, lazy loading, Web Vitals). "
-    "Regular work with RBAC, dashboards, and backend teams."
+    "Full-Stack Software Developer specializing in modern web and mobile applications, "
+    "with experience building production systems using React, Next.js, NestJS, Django, React Native, and PostgreSQL. "
+    "Experienced in developing enterprise dashboards, APIs, mobile applications, and end-to-end products, "
+    "including founding and building BeautiLink. "
+    "Leverages AI-assisted development for problem-solving, prototyping, debugging, and delivery "
+    "while maintaining engineering and code-quality standards."
 )
 
 SKILLS = {
-    "Languages": "JavaScript, TypeScript, HTML5, CSS3",
-    "Frameworks and Libraries": (
-        "React, Next.js, React Native, Material UI, Tailwind CSS, Redux, "
-        "shadcn/ui, Styled Components"
-    ),
-    "Tools and Platforms": "Git, GitHub, Docker, Webpack, npm, pnpm, Vercel, Figma",
-    "UI/UX and Quality": (
-        "Design Systems, Responsive Design, WCAG Accessibility, Jest, "
-        "React Testing Library, Cypress, Web Vitals, Code Splitting"
-    ),
+    "Frontend": "JavaScript, TypeScript, React, Next.js, HTML5, CSS3, MUI, Tailwind CSS, Redux",
+    "Backend": "Node.js, NestJS, Python, Django, REST APIs",
+    "Mobile": "Expo, React Native",
+    "Databases": "PostgreSQL, Prisma",
+    "Tools and testing": "Git, GitHub, Docker, CI/CD, Jest, React Testing Library, Cypress, Figma",
+    "AI and development": "AI-assisted development, prompt engineering",
 }
 
 EXPERIENCE = [
     {
-        "role": "Frontend Developer",
+        "role": "Software Engineer",
         "company": "Dynamic Mobility Technology",
         "period": "February 2024 - Present",
         "location": "Kenya",
         "bullets": [
-            "Lead frontend for KISRS (Kenya Integrated Sample Referral System): RBAC workflows, real-time referral dashboards, and UAT release (https://uat.isrs.co.ke/).",
-            "Built enterprise insurance admin portal (2025-2026): agents, commissions, claims journey, digital store, and operational reporting.",
-            "Built insurance agents portal (2025-2026): bookings, customer management, policy workflows, and agent copilot UI.",
-            "Contributed to e-Sahal fintech mobile app (2024-2025, React Native): wallet, transactions, authentication, and onboarding.",
-            "Led frontend for carbon credits platform (2026): feasibility workflows, reporting dashboards, and field data collection UI.",
-            "Improved performance via lazy loading, optimized state management, and route-level code splitting in Next.js codebases.",
+            "Delivered KISRS, a healthcare sample referral platform for hospitals and laboratories, implementing RBAC, referral workflows, and dashboard interfaces in Next.js.",
+            "Founded and developed BeautiLink, a beauty and wellness marketplace spanning a Next.js admin portal, NestJS APIs, and Expo/React Native apps for booking, shop, chat, and business operations.",
+            "Built insurance operations software, including an admin console for agents, claims, commissions, and reporting, and an agent workspace for bookings and customers.",
+            "Developed e-Sahal wallet flows on Expo React Native, covering authentication, send money, and transaction history.",
+            "Built CarbonFlow reporting and feasibility workflows for carbon project teams, including dashboards and field data screens.",
         ],
     },
     {
-        "role": "Freelance Frontend Developer",
+        "role": "Freelance Software Engineer",
         "company": "Upeo",
-        "period": "Freelance (2026)",
+        "period": "2026",
         "location": "Kenya",
         "bullets": [
-            "Built Upeo CBC student portal: curriculum content, progress tracking, and learner workflows.",
-            "Built responsive interfaces and API integrations for enrollment and student-facing experiences.",
+            "Built the Upeo CBC student portal in Next.js, covering curriculum content, progress tracking, enrollment, and API-backed learner screens.",
         ],
     },
     {
-        "role": "Frontend Developer",
+        "role": "Software Engineer",
         "company": "Tenzi Limited",
         "period": "May 2024 - January 2025",
         "location": "Kenya",
         "bullets": [
-            "Built Tenzi-MRP for procurement, production planning, and inventory management (product discontinued).",
-            "Built Tenzi-POS with offline-first IndexedDB sync, RBAC, and checkout UI (product discontinued).",
+            "Shipped Tenzi-MRP for procurement, production planning, and inventory, and Tenzi-POS with offline-first IndexedDB sync so checkout continued during outages. Both products are discontinued.",
         ],
     },
     {
-        "role": "Frontend Developer",
+        "role": "Software Engineer",
         "company": "CityRight Limited",
         "period": "October 2023 - January 2024",
         "location": "Kenya",
         "bullets": [
-            "Built accessible interfaces and integrated REST APIs for e-commerce and marketing sites.",
-            "Optimized frontend performance and maintained sites with team coding standards.",
+            "Built accessible web applications and REST API integrations for e-commerce and marketing sites, with performance and maintainability improvements.",
         ],
     },
     {
-        "role": "Frontend Developer",
+        "role": "Software Engineer",
         "company": "Computer Engineering Forum",
         "period": "April 2023 - July 2023",
         "location": "Remote",
         "bullets": [
-            "Supported e-commerce builds, performance tuning, and design collaboration.",
+            "Supported e-commerce builds, performance work, and design collaboration.",
         ],
     },
     {
@@ -120,64 +115,54 @@ EXPERIENCE = [
         "period": "May 2023 - August 2023",
         "location": "Kenya",
         "bullets": [
-            "Fixed data issues and built reports and charts for internal teams.",
+            "Improved data quality and produced reports and charts for internal teams.",
         ],
     },
 ]
 
-PORTFOLIO_URL = "https://portfolio-omega-umber-28.vercel.app/"
-
 PROJECTS = [
-    (
-        "Portfolio Website (2025-2026)",
-        "Personal project. Next.js, TypeScript, Tailwind CSS, Framer Motion.",
-        f"Personal portfolio with curated projects, UI previews, testimonials, and resume download. Live: {PORTFOLIO_URL}",
-    ),
-    (
-        "KISRS - Kenya Integrated Sample Referral System (2025-2026)",
-        "Lead frontend developer. React, Next.js, JavaScript, MUI, RBAC.",
-        "Healthcare referral management with secure dashboards and role-based workflows. Live UAT: https://uat.isrs.co.ke/",
-    ),
-    (
-        "Insurance Admin Portal (2025-2026)",
-        "Frontend engineer. Next.js, React, MUI, Redux, RBAC.",
-        "Enterprise insurance operations: agents, claims, commissions, and reporting. Live demo on request (NDA).",
-    ),
-    (
-        "Insurance Agents Portal (2025-2026)",
-        "Frontend engineer. React, Next.js, TypeScript, MUI.",
-        "Agent workspace for bookings, customers, and policy workflows. Live demo on request (NDA).",
-    ),
-    (
-        "e-Sahal Mobile Fintech (2024-2025)",
-        "React Native engineer. React Native, TypeScript.",
-        "Wallet, send-money, transactions, and authentication for Ethiopian market. Live demo on request (NDA).",
-    ),
-    (
-        "Carbon Credits Platform - CarbonFlow (2026)",
-        "Frontend engineer. React, Next.js.",
-        "Sustainability reporting, feasibility studies, and AI-assisted recommendations. Live: http://carbonflow.sublimematrix.co.ke:3131/auth/login",
-    ),
-    (
-        "Data Aggregation Platform (2025)",
-        "Personal project. Next.js, TypeScript, MUI, Tailwind CSS.",
-        "Analytics dashboards and pipeline views. Live: https://data-aggregation-firm.vercel.app/",
-    ),
-    (
-        "School Management System (2025)",
-        "Personal project. Next.js, TypeScript, MUI.",
-        "Admin console for teachers, subjects, attendance, and exams. Live: https://school-management-system-gamma-nine.vercel.app/admin",
-    ),
-    (
-        "Habit Flow (2025)",
-        "Personal project. Next.js, TypeScript, Tailwind CSS.",
-        "Personal habit tracking with streaks, reminders, and analytics.",
-    ),
-    (
-        "Tenzi-POS / Tenzi-MRP (2024, discontinued)",
-        "Frontend engineer. React, TypeScript, IndexedDB.",
-        "Offline-first POS and MRP systems. Products discontinued; no live environment.",
-    ),
+    {
+        "title": "BeautiLink (2026)",
+        "stack": "Founder. Next.js, NestJS, Expo, Prisma, PostgreSQL.",
+        "desc": "Beauty and wellness marketplace across admin, APIs, and mobile (booking, shop, chat).",
+        "links": [("Live demo", "https://beautilink-admin-portal.vercel.app/")],
+    },
+    {
+        "title": "KISRS (2025-2026)",
+        "stack": "Software engineer. Next.js, TypeScript, MUI, RBAC.",
+        "desc": "Healthcare sample referral platform for hospitals and labs, shipped to UAT.",
+        "links": [("Live demo", "https://uat.isrs.co.ke/")],
+    },
+    {
+        "title": "Insurance Admin Portal (2025-2026)",
+        "stack": "Software engineer. Next.js, React, MUI, Redux, RBAC.",
+        "desc": "Enterprise console for agents, claims, commissions, and reporting.",
+        "links": [("Live demo", "http://134.209.70.221:3050/")],
+    },
+    {
+        "title": "e-Sahal (2024-2025)",
+        "stack": "Software engineer. Expo, React Native, TypeScript.",
+        "desc": "Mobile wallet for the Ethiopian market: auth, transfers, and transactions. Private demo on request.",
+        "links": [],
+    },
+    {
+        "title": "CarbonFlow (2026)",
+        "stack": "Software engineer. Next.js, TypeScript, NestJS.",
+        "desc": "Carbon credits reporting, feasibility studies, and field data dashboards.",
+        "links": [("Live demo", "http://carbonflow.sublimematrix.co.ke:3131/auth/login")],
+    },
+    {
+        "title": "Upeo CBC Portal (2026)",
+        "stack": "Software engineer. Next.js, TypeScript.",
+        "desc": "CBC student portal for curriculum, progress, and learner workflows. Private demo on request.",
+        "links": [],
+    },
+    {
+        "title": "Habit Flow (2025-2026)",
+        "stack": "Personal project. Next.js, TypeScript, REST API.",
+        "desc": "Activity tracker for habits, learning-project checklists, and analytics.",
+        "links": [("Live demo", "https://didactic-eureka-psi.vercel.app/")],
+    },
 ]
 
 EDUCATION = [
@@ -195,17 +180,19 @@ VOLUNTEER = [
     ),
 ]
 
-REFERENCES = [
-    "Dennis Njoroge - HR, Dynamic Mobility Technology - 0701 824 145",
-    "John Kariuki - Developer, CityRight Limited - 0789 122 989",
-    "Alex Kibet - DOS, Laikipia University - 0717 470 102",
-    "Frank Ouma - Lead, AMREC Kisumu - 0745 026 157",
-]
+def apply_private() -> None:
+    """Phone stays in gitignored docs/resume-private.json. Referee numbers are never written to the public resume."""
+    data: dict = {}
+    private_path = DOCS / "resume-private.json"
+    if private_path.exists():
+        data = json.loads(private_path.read_text(encoding="utf-8"))
+    CONTACT["phone"] = str(data.get("phone") or os.environ.get("RESUME_PHONE", ""))
+    CONTACT["phone_display"] = str(
+        data.get("phone_display") or os.environ.get("RESUME_PHONE_DISPLAY", "")
+    )
 
-NDA_NOTE = (
-    "Some enterprise work is under NDA. Email chepkiruidaphne91@gmail.com or call +254 111 620 160 "
-    "to arrange a demo of the projects that fit your role."
-)
+
+apply_private()
 
 URL_RE = re.compile(
     r"(https?://[^\s\)\],]+|(?:uat\.)?isrs\.co\.ke/?|(?:[\w-]+\.)?vercel\.app[^\s\)]*|github\.com/[\w-]+|carbonflow\.sublimematrix\.co\.ke[^\s\)]*)",
@@ -243,12 +230,33 @@ def email_to_html(email: str) -> str:
     return f'<a href="mailto:{email}" color="{BLUE_HEX}"><u>{email}</u></a>'
 
 
+def project_links_md(links: list[tuple[str, str]]) -> str:
+    if not links:
+        return ""
+    return " " + " ".join(f"[{label}]({url})" for label, url in links)
+
+
+def project_links_html(links: list[tuple[str, str]]) -> str:
+    if not links:
+        return ""
+    parts = [
+        f'<a href="{url}" color="{BLUE_HEX}"><u>{label}</u></a>'
+        for label, url in links
+    ]
+    return " &nbsp;".join(parts)
+
+
 def write_markdown(path: Path) -> None:
-    gh = " | ".join(f"[{label}]({url})" for label, url in CONTACT["github"])
+    gh_label, gh_url = CONTACT["github"]
+    li = CONTACT.get("linkedin")
+    li_md = f" | [LinkedIn]({li})" if li else ""
+    portfolio = CONTACT.get("portfolio")
+    port_md = f" | [Portfolio]({portfolio})" if portfolio else ""
+    phone_md = f" | {CONTACT['phone_display']}" if CONTACT.get("phone_display") else ""
     lines = [
         f"# {CONTACT['name'].title()}",
         f"**{CONTACT['title']}** | {CONTACT['location']}",
-        f"[{CONTACT['email']}](mailto:{CONTACT['email']}) | {CONTACT['phone_display']} | {gh}",
+        f"[{CONTACT['email']}](mailto:{CONTACT['email']}){phone_md}{li_md}{port_md} | [GitHub]({gh_url})",
         "",
         "## Professional Summary",
         SUMMARY,
@@ -265,11 +273,10 @@ def write_markdown(path: Path) -> None:
         for b in job["bullets"]:
             lines.append(f"- {b}")
     lines.extend(["", "## Selected Projects"])
-    for title, role, desc in PROJECTS:
-        lines.append(f"### {title}")
-        lines.append(f"*{role}*")
-        lines.append(desc)
-    lines.extend(["", "## Portfolio and Live Demos", NDA_NOTE])
+    for project in PROJECTS:
+        lines.append(f"### {project['title']}")
+        lines.append(f"*{project['stack']}*")
+        lines.append(f"{project['desc']}{project_links_md(project['links'])}")
     lines.extend(["", "## Education"])
     for deg, school in EDUCATION:
         lines.append(f"**{deg}** - {school}")
@@ -277,8 +284,6 @@ def write_markdown(path: Path) -> None:
     for header, detail in VOLUNTEER:
         lines.append(f"**{header}**")
         lines.append(detail)
-    lines.extend(["", "## References"])
-    lines.extend([f"- {r}" for r in REFERENCES])
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
@@ -329,17 +334,32 @@ def write_pdf(path: Path) -> None:
 
     pdf.set_font("Helvetica", "", 11)
     pdf.set_text_color(*BLACK)
-    pdf.cell(0, 6, f"{CONTACT['title']} | UI/UX Focus", new_x="LMARGIN", new_y="NEXT")
+    pdf.cell(0, 6, f"{CONTACT['title']}", new_x="LMARGIN", new_y="NEXT")
 
-    gh_links = " &nbsp;|&nbsp; ".join(
-        f'<a href="{url}" color="{BLUE_HEX}"><u>github.com/{label}</u></a>'
-        for label, url in CONTACT["github"]
+    gh_label, gh_url = CONTACT["github"]
+    gh_html = f'<a href="{gh_url}" color="{BLUE_HEX}"><u>GitHub</u></a>'
+    li = CONTACT.get("linkedin", "")
+    li_html = (
+        f' &nbsp;|&nbsp; <a href="{li}" color="{BLUE_HEX}"><u>LinkedIn</u></a>'
+        if li
+        else ""
+    )
+    port = CONTACT.get("portfolio", "")
+    port_html = (
+        f' &nbsp;|&nbsp; <a href="{port}" color="{BLUE_HEX}"><u>Portfolio</u></a>'
+        if port
+        else ""
+    )
+    phone_html = (
+        f' &nbsp;|&nbsp; <a href="tel:{CONTACT["phone"]}" color="{BLUE_HEX}"><u>{CONTACT["phone_display"]}</u></a>'
+        if CONTACT.get("phone")
+        else ""
     )
     contact_html = (
         f"<p>{CONTACT['location']} &nbsp;|&nbsp; "
-        f"{email_to_html(CONTACT['email'])} &nbsp;|&nbsp; "
-        f'<a href="tel:{CONTACT["phone"]}" color="{BLUE_HEX}"><u>{CONTACT["phone_display"]}</u></a> '
-        f"&nbsp;|&nbsp; {gh_links}</p>"
+        f"{email_to_html(CONTACT['email'])}"
+        f"{phone_html}"
+        f"{li_html}{port_html} &nbsp;|&nbsp; {gh_html}</p>"
     )
     pdf.set_font("Helvetica", "", 10)
     pdf.write_html(contact_html)
@@ -365,14 +385,16 @@ def write_pdf(path: Path) -> None:
         pdf.ln(1)
 
     pdf.section_heading("SELECTED PROJECTS")
-    for title, role, desc in PROJECTS:
-        pdf.write_html_block(f"<p><b>{text_to_html(title)}</b></p>")
-        pdf.body_text(role)
-        pdf.body_text(desc)
+    for project in PROJECTS:
+        pdf.write_html_block(f"<p><b>{text_to_html(project['title'])}</b></p>")
+        pdf.body_text(project["stack"])
+        links = project_links_html(project["links"])
+        desc_html = text_to_html(project["desc"])
+        if links:
+            pdf.write_html_block(f"<p>{desc_html} &nbsp;{links}</p>")
+        else:
+            pdf.body_text(project["desc"])
         pdf.ln(1)
-
-    pdf.section_heading("PORTFOLIO AND LIVE DEMOS")
-    pdf.body_text(NDA_NOTE)
 
     pdf.section_heading("EDUCATION")
     for deg, school in EDUCATION:
@@ -382,10 +404,6 @@ def write_pdf(path: Path) -> None:
     for header, detail in VOLUNTEER:
         pdf.body_text(header, bold=True)
         pdf.body_text(detail)
-
-    pdf.section_heading("REFERENCES")
-    for ref in REFERENCES:
-        pdf.bullet(ref)
 
     pdf.output(str(path))
 
@@ -453,18 +471,25 @@ def write_docx(path: Path) -> None:
 
     sub = doc.add_paragraph()
     sub.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r = sub.add_run(f"{CONTACT['title']} | UI/UX Focus")
+    r = sub.add_run(CONTACT["title"])
     r.font.size = Pt(11)
 
     contact = doc.add_paragraph()
     contact.alignment = WD_ALIGN_PARAGRAPH.CENTER
     contact.add_run(f"{CONTACT['location']} | ")
     add_hyperlink(contact, CONTACT["email"], f"mailto:{CONTACT['email']}")
-    contact.add_run(" | ")
-    add_hyperlink(contact, CONTACT["phone_display"], f"tel:{CONTACT['phone']}")
-    for i, (label, url) in enumerate(CONTACT["github"]):
+    if CONTACT.get("phone") and CONTACT.get("phone_display"):
         contact.add_run(" | ")
-        add_hyperlink(contact, f"github.com/{label}", url)
+        add_hyperlink(contact, CONTACT["phone_display"], f"tel:{CONTACT['phone']}")
+    if CONTACT.get("linkedin"):
+        contact.add_run(" | ")
+        add_hyperlink(contact, "LinkedIn", CONTACT["linkedin"])
+    if CONTACT.get("portfolio"):
+        contact.add_run(" | ")
+        add_hyperlink(contact, "Portfolio", CONTACT["portfolio"])
+    gh_label, gh_url = CONTACT["github"]
+    contact.add_run(" | ")
+    add_hyperlink(contact, "GitHub", gh_url)
 
     add_section_heading(doc, "PROFESSIONAL SUMMARY")
     doc.add_paragraph(SUMMARY)
@@ -489,21 +514,16 @@ def write_docx(path: Path) -> None:
             add_linked_paragraph(doc, bullet, style="List Bullet")
 
     add_section_heading(doc, "SELECTED PROJECTS")
-    for proj_title, role, desc in PROJECTS:
+    for project in PROJECTS:
         p = doc.add_paragraph()
-        p.add_run(proj_title).bold = True
-        doc.add_paragraph(role)
-        add_linked_paragraph(doc, desc)
-
-    add_section_heading(doc, "PORTFOLIO AND LIVE DEMOS")
-    p = doc.add_paragraph()
-    p.add_run(NDA_NOTE.split("chepkiruidaphne91@gmail.com")[0])
-    add_hyperlink(p, CONTACT["email"], f"mailto:{CONTACT['email']}")
-    rest = NDA_NOTE.split("chepkiruidaphne91@gmail.com", 1)[1]
-    before_phone, _, after_phone = rest.partition("+254 111 620 160")
-    p.add_run(before_phone)
-    add_hyperlink(p, CONTACT["phone_display"], f"tel:{CONTACT['phone']}")
-    p.add_run(after_phone)
+        p.add_run(project["title"]).bold = True
+        doc.add_paragraph(project["stack"])
+        line = doc.add_paragraph()
+        line.add_run(project["desc"] + (" " if project["links"] else ""))
+        for i, (label, url) in enumerate(project["links"]):
+            if i:
+                line.add_run(" ")
+            add_hyperlink(line, label, url)
 
     add_section_heading(doc, "EDUCATION")
     for deg, school in EDUCATION:
@@ -514,10 +534,6 @@ def write_docx(path: Path) -> None:
         p = doc.add_paragraph()
         p.add_run(header).bold = True
         doc.add_paragraph(detail)
-
-    add_section_heading(doc, "REFERENCES")
-    for ref in REFERENCES:
-        doc.add_paragraph(ref, style="List Bullet")
 
     doc.save(str(path))
 
@@ -531,10 +547,17 @@ def main() -> None:
     write_markdown(md_path)
     write_docx(docx_path)
     write_pdf(RESUME_PDF)
+    PUBLIC_RESUME.parent.mkdir(exist_ok=True)
+    shutil.copyfile(RESUME_PDF, PUBLIC_RESUME)
+
+    nxtlabs = DOCS / "Daphne_Chepkirui_NXTLABS_JavaScript_Developer_CV.docx"
+    write_docx(nxtlabs)
 
     print(f"Wrote {md_path}")
     print(f"Wrote {docx_path}")
     print(f"Wrote {RESUME_PDF}")
+    print(f"Wrote {PUBLIC_RESUME}")
+    print(f"Wrote {nxtlabs}")
 
 
 if __name__ == "__main__":
